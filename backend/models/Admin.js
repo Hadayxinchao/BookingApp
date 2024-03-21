@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const placeSchema = new mongoose.Schema({
+const adminSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
@@ -15,17 +15,11 @@ const placeSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  description: {
-    type: String,
-  },
   profilePicture: {
-    type: String,
-  },
-  role: {
     type: String,
   },
 });
 
-const Place = mongoose.model('Place', placeSchema);
+const Admin = mongoose.model('Admin', adminSchema);
 
-module.exports = Place;
+module.exports = Admin;

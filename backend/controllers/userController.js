@@ -58,7 +58,7 @@ exports.login = async (req, res) => {
       if (validatedPassword) {
         const token = jwt.sign(
           { email: user.email, id: user._id },
-          JWT_SECRET,
+          process.env.JWT_SECRET,
           {
             expiresIn: '2 days',
           }
