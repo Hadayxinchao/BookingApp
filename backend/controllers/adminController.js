@@ -7,7 +7,6 @@ exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
     const admin = await Admin.findOne({ email });
-    console.log(admin)
     if (admin) {
       const validatedPassword = (password === admin.password);
       if (validatedPassword) {
