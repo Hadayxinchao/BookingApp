@@ -2,7 +2,9 @@ const { connect, set } = require('mongoose');
 
 const connectWithDB = () => {
   set('strictQuery', false);
-  connect(process.env.DB_URL)
+  connect(process.env.DB_URL, {
+    dbName: 'SE'
+  })
     .then(() => {
       console.log(`DB connected successfully`);
     })
