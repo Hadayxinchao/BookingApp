@@ -26,12 +26,12 @@ exports.login = async (req, res) => {
         });
       } else {
         res.status(401).json({
-          message: 'name or password is incorrect',
+          message: 'Email or password is incorrect',
         });
       }
     } else {
       res.status(400).json({
-        message: 'User not found',
+        message: 'Admin not found',
       });
     }
   } catch (err) {

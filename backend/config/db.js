@@ -3,7 +3,7 @@ const { connect, set } = require('mongoose');
 const connectWithDB = () => {
   set('strictQuery', false);
   connect(process.env.DB_URL, {
-    dbName: 'SE'
+    dbName: process.env.DB_NAME
   })
     .then(() => {
       console.log(`DB connected successfully`);

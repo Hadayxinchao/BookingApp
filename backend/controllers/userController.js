@@ -1,33 +1,34 @@
 const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 // const userFromToken = require('../utils/userFromToken');
-const JWT_SECRET = 'aggnaosogbadog'
 const jwt = require('jsonwebtoken');
 
 exports.register = async (req, res) => {
   try {
     const { name, email, password, role } = req.body;
 
-    if (!name || !email || !password || !role) {
+    if (!name || !email || !password) {
+      let missingFields = [];
+      if (!name) {
+        missingFields.push('Name');
+      }
+      if (!email) {
+        missingFields.push('Email');
+      }
+      if (!password) {
+        missingFields.push('Password');
+      }
+
       return res.status(400).json({
-        message: 'name, email, password and role are required',
+        message: `The following fields are required: ${missingFields.join(', ')}`,
       });
     }
 
-    // check if user already registered
     let user = await User.findOne({ email });
 
     if (user) {
       return res.status(400).json({
-        message: 'User already registered',
-      });
-    }
-
-    user = await User.findOne({ name });
-
-    if (user) {
-      return res.status(400).json({
-        message: 'Name already registered',
+        message: 'Email already registered',
       });
     }
 
@@ -41,6 +42,7 @@ exports.register = async (req, res) => {
     res.status(200).json({
       user,
     });
+
   } catch (err) {
     res.status(500).json({
       message: 'Internal server Error',
