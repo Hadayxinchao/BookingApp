@@ -1,13 +1,16 @@
 import React from 'react'
-import './LoginForm.css'
+import './SigninForm.css'
 import { FaUser } from "react-icons/fa";
 import { FaLock } from "react-icons/fa";
+import { useNavigate } from 'react-router-dom';
 
-const LoginForm = () => {
+const SigninForm = () => {
+  const navigate = useNavigate();
+
   return (
     <div className='wrapper'>
       <form action="">
-        <h1>Login</h1>
+        <h1>Admin Signin</h1>
         <div className='input-box'>
           <input type="text" placeholder='Username' required />
           <FaUser className='icon' />
@@ -25,11 +28,11 @@ const LoginForm = () => {
         <button type="submit">Login</button>
 
         <div className='register-link'>
-          <p>Don't have an account? <a href="#">Register</a></p>
+          <p>Don't have an account? <button onClick={() => navigate('/signup')}>Go to Signup</button></p>
         </div>
       </form>
     </div>
   )
 }
 
-export default LoginForm
+export default SigninForm
