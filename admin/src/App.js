@@ -1,8 +1,8 @@
 import { ColorModeContext, useMode } from "./theme";
 import { CssBaseline, ThemeProvider } from "@mui/material";
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Redirect } from 'react-router-dom';
 import SigninForm  from "./components/forms/SigninForm";
-import SignupForm  from "./components/forms/SignupForm";
+import TopBar from "./scenes/global/TopBar";
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -14,10 +14,11 @@ function App() {
           <CssBaseline />
           <div className="app">
             <Routes>
-              <Route path="/signin" element={<SigninForm />} />
-              <Route path="/signup" element={<SignupForm />} />
+              <Route path="/dashboard" element={<SigninForm />} />
             </Routes>
-            <main className="content"></main>
+            <main className="content">
+              <TopBar />
+            </main>
           </div>
         </ThemeProvider>
       </ColorModeContext.Provider>
