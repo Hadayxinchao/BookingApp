@@ -146,7 +146,7 @@ const initialValues = {
   firstName: "",
   lastName: "",
   email: "",
-  contact: "",
+  contact:   "",
   address1: "",
   address2: "",
 };
