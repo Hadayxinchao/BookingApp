@@ -6,5 +6,6 @@ dotenv.config();
 
 router.use('/user', require('./user'));
 router.use('/admin', require('./admin'));
+router.use('/place', require('./place'));
 
 module.exports = router;
