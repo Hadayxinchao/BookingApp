@@ -2,11 +2,8 @@ import React from 'react'
 import './SigninForm.css'
 import { FaUser } from "react-icons/fa";
 import { FaLock } from "react-icons/fa";
-import { useNavigate } from 'react-router-dom';
 
 const SigninForm = () => {
-  const navigate = useNavigate();
-
   return (
     <div className='wrapper'>
       <form action="">
@@ -26,10 +23,6 @@ const SigninForm = () => {
         </div>
 
         <button type="submit">Login</button>
-
-        <div className='register-link'>
-          <p>Don't have an account? <button onClick={() => navigate('/signup')}>Go to Signup</button></p>
-        </div>
       </form>
     </div>
   )
