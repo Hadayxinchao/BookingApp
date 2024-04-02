@@ -8,7 +8,7 @@ exports.login = async (req, res) => {
     const { email, password } = req.body;
     const admin = await Admin.findOne({ email });
     if (admin) {
-      const validatedPassword = (password === admin.password);
+      const validatedPassword = bcrypt.compare(password, admin.password);
       if (validatedPassword) {
         const token = jwt.sign(
           { name: admin.name, email: admin.email, id: admin._id },
