@@ -197,3 +197,15 @@ exports.deletePlace = async (req, res) => {
     });
   }
 };
+
+exports.getPlaceReviews = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const reviews = await Review.find({ place: id });
+
+    res.json({ success: true, reviews });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+};
