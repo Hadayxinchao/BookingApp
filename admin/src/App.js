@@ -1,6 +1,6 @@
 import { ColorModeContext, useMode } from "./theme";
 import { CssBaseline, ThemeProvider } from "@mui/material";
-import { Routes, Route, Redirect } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import SigninForm  from "./components/forms/SigninForm";
 import Topbar from "./scenes/global/TopBar";
 import Sidebar from "./scenes/global/SideBar";
@@ -25,14 +25,13 @@ function App() {
         <ThemeProvider theme={theme}>
           <CssBaseline />
           <div className="app">
-            {/* <Routes>
-              <Route path="/dashboard" element={<SigninForm />} />
-            </Routes> */}
             <Sidebar />
             <main className="content">
               <Topbar />
               <Routes>
-                <Route path="/" element={<Dashboard />} />
+                <Route path="/" element={<Navigate to="/signin" />} />
+                <Route path="/signin" element={<SigninForm />} />
+                <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/team" element={<Team />} />
                 <Route path="/contacts" element={<Contacts />} />
                 <Route path="/invoices" element={<Invoices />} />

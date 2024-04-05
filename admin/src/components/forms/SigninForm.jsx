@@ -1,9 +1,19 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom';
 import './SigninForm.css'
 import { FaUser } from "react-icons/fa";
 import { FaLock } from "react-icons/fa";
 
 const SigninForm = () => {
+  const navigate = useNavigate();
+
+  const handleLogin = () => {
+    // Perform login logic here
+
+    // Redirect to the dashboard
+    navigate('/dashboard');
+  };
+
   return (
     <div className='wrapper'>
       <form action="">
@@ -22,7 +32,7 @@ const SigninForm = () => {
           <a href="#">Forgot password?</a>
         </div>
 
-        <button type="submit">Login</button>
+        <button type="submit" onClick={handleLogin}>Login</button>
       </form>
     </div>
   )
