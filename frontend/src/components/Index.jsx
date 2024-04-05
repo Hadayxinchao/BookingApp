@@ -3,7 +3,7 @@ import axios from "axios";
 import {Link} from "react-router-dom";
 import Image from "../Image.jsx";
 
-export default function IndexPage() {
+export default function Index() {
   const [places,setPlaces] = useState([]);
   useEffect(() => {
     axios.get('/places').then(response => {
