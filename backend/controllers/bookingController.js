@@ -31,6 +31,7 @@ exports.createBookings = async (req, res) => {
 exports.getBookings = async (req, res) => {
   try {
     const userData = userFromToken(req);
+    console.log(userData);
     if (!userData) {
       return res
         .status(401)
