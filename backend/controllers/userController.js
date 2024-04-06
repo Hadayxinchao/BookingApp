@@ -25,7 +25,7 @@ exports.register = async (req, res) => {
     }
 
     let user = await User.findOne({ email });
-
+    
     if (user) {
       return res.status(400).json({
         message: 'Email already registered',
@@ -54,6 +54,21 @@ exports.register = async (req, res) => {
 exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
+
+    if (!email || !password) {
+      let missingFields = [];
+      if (!email) {
+        missingFields.push('Email');
+      }
+      if (!password) {
+        missingFields.push('Password');
+      }
+
+      return res.status(400).json({
+        message: `The following fields are required: ${missingFields.join(', ')}`,
+      });
+    }
+
     const user = await User.findOne({ email });
     if (user) {
       const validatedPassword = await bcrypt.compare(password, user.password);
@@ -74,7 +89,7 @@ exports.login = async (req, res) => {
         });
       } else {
         res.status(401).json({
-          message: 'email or password is incorrect',
+          message: 'Email or password is incorrect',
         });
       }
     } else {
@@ -88,12 +103,6 @@ exports.login = async (req, res) => {
       error: err,
     });
   }
-};
-
-exports.logout = async (req, res) => {
-  res.cookie('token', '').json({
-    message: 'logged out successfully!',
-  });
 };
 
 exports.profile = async (req, res) => {

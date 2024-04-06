@@ -14,7 +14,6 @@ const {
 
 router.route('/register').post(register);
 router.route('/login').post(login);
-router.route('/logout').post(logout);
 router.route('/profile').get(profile);
 /* router.route('/updateProfile').post(updateProfile);
 router.route('/upload-by-link').post(uploadByLink);
