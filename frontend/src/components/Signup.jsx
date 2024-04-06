@@ -1,11 +1,14 @@
 import {Link} from "react-router-dom";
 import {useState} from "react";
 import axios from "axios";
+import { toast } from 'react-toastify';
 
 export default function RegisterPage() {
   const [name,setName] = useState('');
   const [email,setEmail] = useState('');
   const [password,setPassword] = useState('');
+  
+
   async function registerUser(ev) {
     ev.preventDefault();
     try {
@@ -14,9 +17,9 @@ export default function RegisterPage() {
         email,
         password,
       });
-      alert('Registration successful. Now you can log in');
+      toast.success('Registration successful. Now you can log in');
     } catch (e) {
-      alert('Registration failed. Please try again later');
+      toast.error('Registration failed. Please try again later');
     }
   }
   return (

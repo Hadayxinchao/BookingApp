@@ -15,6 +15,6 @@ button{
     @apply bg-gray-300;
 }
 button.primary{
-    background-color: #F5385D;
+    background-color: green;
     @apply bg-primary p-2 w-full text-white rounded-2xl;
 }
