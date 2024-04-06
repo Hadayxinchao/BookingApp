@@ -9,9 +9,7 @@ import Place from "./components/Place";
 import PlacesForm from "./components/PlacesForm";
 import Layout from './Layout';
 import axios from "axios";
-require('dotenv').config();
 
-console.log(process.env.REACT_APP_API_BASE_URL);
 axios.defaults.baseURL = process.env.REACT_APP_API_BASE_URL;
 axios.defaults.withCredentials = true;
 
