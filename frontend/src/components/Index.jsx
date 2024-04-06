@@ -4,11 +4,13 @@ import {Link} from "react-router-dom";
 import Image from "./Image";
 export default function Index() {
   const [places,setPlaces] = useState([]);
+  
   useEffect(() => {
     axios.get('/places').then(response => {
-      setPlaces(response.data);
+      setPlaces(response.data.places);
     });
   }, []);
+
   return (
     <div className="mt-8 grid gap-x-6 gap-y-8 grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
       {places.length > 0 && places.map(place => (

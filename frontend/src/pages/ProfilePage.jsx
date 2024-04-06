@@ -1,12 +1,12 @@
 import {useContext, useState} from "react";
-import {UserContext} from "../providers/UserContext";
+import {UserContext} from "../providers/UserContext.jsx";
 import {Navigate, useParams} from "react-router-dom";
-import PlacesPage from "../pages/PlacesPage.jsx";
+import PlacesPage from "./PlacesPage.jsx";
 import AccountNav from "../components/AccountNav.jsx";
 import { toast } from 'react-toastify';
 import { removeItemFromLocalStorage } from '../utils/index.js';
 
-export default function Profile() {
+export default function ProfilePage() {
   const [redirect,setRedirect] = useState(null);
   const {ready,user,setUser} = useContext(UserContext);
   let {subpage} = useParams();
