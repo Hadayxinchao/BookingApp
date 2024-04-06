@@ -1,9 +1,10 @@
 import {useContext, useState} from "react";
-import {UserContext} from "../UserContext.jsx";
-import {Link, Navigate, useParams} from "react-router-dom";
-import axios from "axios";
-import Places from "./Places.jsx";
-import AccountNav from "../AccountNav";
+import {UserContext} from "../providers/UserContext";
+import {Navigate, useParams} from "react-router-dom";
+import PlacesPage from "../pages/PlacesPage.jsx";
+import AccountNav from "../components/AccountNav.jsx";
+import { toast } from 'react-toastify';
+import { removeItemFromLocalStorage } from '../utils/index.js';
 
 export default function Profile() {
   const [redirect,setRedirect] = useState(null);
@@ -14,9 +15,10 @@ export default function Profile() {
   }
 
   async function logout() {
-    await axios.post('/logout');
-    setRedirect('/');
     setUser(null);
+    removeItemFromLocalStorage('token');
+    toast.success('Logged out');
+    setRedirect('/');
   }
 
   if (!ready) {
@@ -40,7 +42,7 @@ export default function Profile() {
         </div>
       )}
       {subpage === 'places' && (
-        <Places />
+        <PlacesPage />
       )}
     </div>
   );

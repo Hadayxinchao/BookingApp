@@ -5,13 +5,13 @@ const Review = require('../models/Review');
 exports.createBookings = async (req, res) => {
   try {
     const userData = userFromToken(req);
-    const infoData = req.body.infoData;
+    const infoData = req.body;
     const booking = await Booking.create({
       user: userData.id,
       place: infoData.place,
       checkIn: infoData.checkIn,
       checkOut: infoData.checkOut,
-      numOfGuests: infoData.numOfGuests,
+      numOfGuests: infoData.numberOfGuests,
       name: infoData.name,
       phone: infoData.phone,
       price: infoData.price,
@@ -117,7 +117,6 @@ exports.createReview = async (req, res) => {
         error: 'You have already reviewed this booking',
       });
     } */
-    console.log("1")
     const reviewData = {
       user: userData.id,
       place: req.body.placeId,

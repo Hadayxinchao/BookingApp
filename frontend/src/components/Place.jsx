@@ -1,25 +1,33 @@
-import {Link, useParams} from "react-router-dom";
+import {useParams, useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
 import axios from "axios";
-import BookingWidget from "../BookingWidget";
-import PlaceGallery from "../PlaceGallery";
-import AddressLink from "../AddressLink";
+import BookingWidget from "./BookingWidget";
+import PlaceGallery from "./PlaceGallery";
+import AddressLink from "./AddressLink";
+import {toast } from 'react-toastify';
 
 export default function Place() {
   const {id} = useParams();
   const [place,setPlace] = useState(null);
+  const navigate = useNavigate();
   useEffect(() => {
     if (!id) {
       return;
     }
-    axios.get(`/places/${id}`).then(response => {
-      setPlace(response.data);
-    });
-  }, [id]);
+    const fetchPlace = async () => {
+      try {
+        const response = await axios.get("/places/" + id);
+        setPlace(response.data.place);
+      } catch (error) {
+        toast.error(error.response.data.message);
+        navigate('/');
+      }
+    };
+
+    fetchPlace();
+  }, [id, navigate]);
 
   if (!place) return '';
-
-
 
   return (
     <div className="mt-4 bg-gray-100 -mx-8 px-8 pt-8">
