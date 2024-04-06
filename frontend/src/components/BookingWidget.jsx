@@ -2,8 +2,9 @@ import {useContext, useEffect, useState} from "react";
 import {differenceInCalendarDays} from "date-fns";
 import axios from "axios";
 import {Navigate} from "react-router-dom";
-import {UserContext} from "./UserContext.jsx";
-
+import {UserContext} from '../providers/UserContext';
+import { getItemFromLocalStorage } from "../utils";
+import {toast} from 'react-toastify';
 export default function BookingWidget({place}) {
   const [checkIn,setCheckIn] = useState('');
   const [checkOut,setCheckOut] = useState('');
@@ -12,6 +13,7 @@ export default function BookingWidget({place}) {
   const [phone,setPhone] = useState('');
   const [redirect,setRedirect] = useState('');
   const {user} = useContext(UserContext);
+  const token = getItemFromLocalStorage("token");
 
   useEffect(() => {
     if (user) {
@@ -25,13 +27,25 @@ export default function BookingWidget({place}) {
   }
 
   async function bookThisPlace() {
-    const response = await axios.post('/bookings', {
-      checkIn,checkOut,numberOfGuests,name,phone,
-      place:place._id,
-      price:numberOfNights * place.price,
-    });
-    const bookingId = response.data._id;
-    setRedirect(`/account/bookings/${bookingId}`);
+    try {
+      const response = await axios.post('/booking', {
+        checkIn,
+        checkOut,
+        numberOfGuests,
+        name,
+        phone,
+        place: place._id,
+        price: numberOfNights * place.price,
+      }, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const bookingId = response.data.booking._id;
+      setRedirect(`/account/bookings/${bookingId}`);
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
   }
 
   if (redirect) {
