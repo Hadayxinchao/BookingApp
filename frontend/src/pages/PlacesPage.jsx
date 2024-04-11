@@ -22,7 +22,7 @@ export default function PlacesPage() {
   }, [token]);
 
   return (
-    <div>
+    <div className="mt-14">
       <AccountNav />
       <div className="text-center">
         <Link

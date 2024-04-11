@@ -2,6 +2,7 @@ const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 const userFromToken = require('../utils/userFromToken');
 const jwt = require('jsonwebtoken');
+const cloudinary = require('cloudinary').v2;
 
 exports.register = async (req, res) => {
   try {
@@ -161,11 +162,11 @@ exports.uploadByLink = async (req, res) => {
     });
     res.json(result.secure_url);
   } catch (error) {
-    console.log(error);
     res.status(500).json({
       message: 'Internal server error',
     });
   }
+
 };
 
 // upload images from local device
@@ -183,7 +184,6 @@ exports.uploadFromLocal = async (req, res) => {
 
     res.status(200).json(imageArray);
   } catch (error) {
-    console.log('Error: ', error);
     res.status(500).json({
       error,
       message: 'Internal server error',
@@ -216,7 +216,6 @@ exports.profilePicture = async (req, res) => {
       // Respond with the profile picture URL
       res.status(200).json({ url: result.secure_url });
     } catch (error) {
-      console.log('Error: ', error);
       res.status(500).json({
         error,
         message: 'Internal server error',

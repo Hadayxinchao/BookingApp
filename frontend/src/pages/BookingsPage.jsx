@@ -21,11 +21,11 @@ export default function BookingsPage() {
     });
   }, [token]);
   return (
-    <div>
+    <div className="mt-14">
       <AccountNav />
       <div>
         {bookings?.length > 0 && bookings.map(booking => (
-          <Link to={`/account/bookings/${booking._id}`} className="flex gap-4 bg-gray-200 rounded-2xl overflow-hidden">
+          <Link to={`/account/bookings/${booking._id}`} className="flex my-6 gap-4 bg-gray-200 rounded-2xl overflow-hidden">
             <div className="w-48">
               <PlaceImg place={booking.place} />
             </div>
