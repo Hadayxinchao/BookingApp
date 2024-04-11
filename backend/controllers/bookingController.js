@@ -88,7 +88,7 @@ exports.createReview = async (req, res) => {
     const bookingId = req.body.bookingId;
 
     // Check if the booking exists and retrieve the check-out date
-    const booking = await Booking.findById(bookingId);
+    const booking = await Booking.findById(bookingId.id);
     if (!booking) {
       return res
         .status(404)

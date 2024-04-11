@@ -105,6 +105,12 @@ exports.login = async (req, res) => {
   }
 };
 
+exports.logout = async (req, res) => {
+  res.cookie('token', '').json({
+    message: 'logged out successfully!',
+  });
+};
+
 exports.profile = async (req, res) => {
   try {
     const userData = userFromToken(req);
