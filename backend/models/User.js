@@ -14,7 +14,10 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  description: {
+  telephone: {
+    type: String,
+  },
+  address: {
     type: String,
   },
   profilePicture: {

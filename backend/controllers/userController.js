@@ -110,9 +110,9 @@ exports.profile = async (req, res) => {
   try {
     const userData = userFromToken(req);
     if (userData) {
-      const { name, email, description, profilePicture, role, _id } =
+      const { name, email, telephone , address, profilePicture, role, _id } =
         await User.findById(userData.id);
-      res.status(200).json({ name, email, description, profilePicture, role, _id });
+      res.status(200).json({ name, email, telephone, address , profilePicture, role, _id });
     } else {
       res.status(200).json(null);
     }
@@ -126,15 +126,16 @@ exports.profile = async (req, res) => {
 
 exports.updateProfile = async (req, res) => {
   try {
-    const { description, name } = req.body;
+    const { name, telephone, address } = req.body;
     const userId = userFromToken(req).id;
 
+    console.log(userId);
     const updatedUser = await User.findByIdAndUpdate(
       userId,
-      { description, name },
+      { name, telephone, address },
       { new: true }
     );
-
+    
     if (!updatedUser) {
       return res.status(404).json({
         message: 'User not found',
