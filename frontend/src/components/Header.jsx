@@ -43,7 +43,6 @@ export default function Header() {
       </div>
       <button
         onClick={handleSetPopup}
-        // to={user ? "/account" : "/login"}
         className="relative flex items-center gap-2 border border-gray-300 rounded-full py-2 px-4 "
       >
         {popup && <Popup user={user} />}

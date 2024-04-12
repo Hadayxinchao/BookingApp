@@ -15,7 +15,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import axios from "axios";
 
 const ProfilePage = () => {
-  const { loading, user, setUser } = useContext(UserContext);
+  const { ready , user, setUser } = useContext(UserContext);
   const [redirect, setRedirect] = useState(null);
   const [showForm, setShowForm] = useState(false);
 
@@ -30,14 +30,13 @@ const ProfilePage = () => {
     removeItemFromLocalStorage("token");
     toast.success("Logged out");
     setRedirect("/");
-    // window.location.reload();
   };
-
-  if (loading) {
+  
+  if (!ready) {
     return <Spinner />;
   }
 
-  if (!loading && !user && !redirect) {
+  if (ready && !user && !redirect) {
     return <Navigate to={"/login"} />;
   }
 
@@ -45,14 +44,15 @@ const ProfilePage = () => {
     return <Navigate to={String(redirect)} />;
   }
 
-  const updateProfile = (description, name, email) => {
+  const updateProfile = (name, email, telephone, address) => {
     axios
       .post(
         `/user/update/`,
         {
-          description,
           name,
           email,
+          telephone,
+          address,
         },
         {
           headers: {
@@ -110,6 +110,8 @@ const ProfilePage = () => {
   const toggleForm = () => {
     setShowForm(!showForm);
   };
+
+  console.log(user);
 
   return (
     <div className="mt-16">
