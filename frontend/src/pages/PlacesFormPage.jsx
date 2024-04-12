@@ -108,7 +108,7 @@ export default function PlacesForm() {
   }
 
   return (
-    <div>
+    <div className="mt-14">
       <AccountNav />
       <form onSubmit={savePlace}>
         {preInput(

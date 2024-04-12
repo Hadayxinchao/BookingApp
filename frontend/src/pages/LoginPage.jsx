@@ -9,7 +9,13 @@ export default function LoginPage() {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const {setUser} = useContext(UserContext);
+  const {setUser, user} = useContext(UserContext);
+
+  // if(user) {
+  //   toast.warning('You are already logged in');
+  //   navigate('/');
+  // }
+  
   async function handleLoginSubmit(ev) {
     ev.preventDefault();
     try {
@@ -24,7 +30,7 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="mt-4 grow flex items-center justify-around">
+    <div className="mt-20 grow flex items-center justify-around">
       <div className="mb-64">
         <h1 className="text-4xl text-center mb-4">Login</h1>
         <form className="max-w-md mx-auto" onSubmit={handleLoginSubmit}>

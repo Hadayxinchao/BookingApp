@@ -38,7 +38,6 @@ exports.addPlace = async (req, res) => {
 exports.getPlaces = async (req, res) => {
   try {
     const places = await Place.find();
-    console.log("HII");
     const placesWithAvgRating = await Promise.all(
       places.map(async (place) => {
         const reviews = await Review.find({ place: place._id });
@@ -70,7 +69,6 @@ exports.updatePlace = async (req, res) => {
     const userId = userData.id;
     const infoData = req.body;
     const place = await Place.findById(infoData.id);
-    console.log(infoData);
     if (userId === place['owner'].toString()) {
       place.set({
         title: infoData.title,
@@ -98,10 +96,8 @@ exports.updatePlace = async (req, res) => {
 };
 
 exports.singlePlace = async (req, res) => {
-  console.log("Hii");
   try {
     const { id } = req.params;
-    console.log(req.params);
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).json({
         message: 'Place not found',
@@ -173,7 +169,6 @@ exports.searchPlaces = async (req, res) => {
 
     res.status(200).json(placesWithAvgRating);
   } catch (err) {
-    console.log(err);
     res.status(500).json({
       message: 'Internal server error',
     });
@@ -205,7 +200,6 @@ exports.deletePlace = async (req, res) => {
       });
     }
   } catch (err) {
-    console.log(err);
     res.status(500).json({
       message: 'Internal server error',
       error: err,
