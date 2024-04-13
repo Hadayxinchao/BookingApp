@@ -2,17 +2,19 @@ const Place = require('../models/Place');
 const Booking = require('../models/Booking');
 const Review = require('../models/Review');
 const userFromToken = require('../utils/userFromToken');
+const mongoose = require('mongoose');
 
 exports.addPlace = async (req, res) => {
   try {
     const userData = userFromToken(req);
-    const infoData = req.body.placeData;
+    const infoData = req.body;
+
     const place = await Place.create({
       owner: userData.id,
       title: infoData.title,
       address: infoData.address,
       photos: infoData.addedPhotos,
-      description: infoData.desc,
+      description: infoData.description,
       perks: infoData.perks,
       extraInfo: infoData.extraInfo,
       checkIn: infoData.checkIn,
@@ -20,6 +22,7 @@ exports.addPlace = async (req, res) => {
       maxGuests: infoData.maxGuests,
       price: infoData.price,
     });
+
     res.status(200).json({
       place,
       message: 'Add new place successfully',
@@ -35,6 +38,7 @@ exports.addPlace = async (req, res) => {
 exports.getPlaces = async (req, res) => {
   try {
     const places = await Place.find();
+    console.log("HII");
     const placesWithAvgRating = await Promise.all(
       places.map(async (place) => {
         const reviews = await Review.find({ place: place._id });
@@ -64,14 +68,15 @@ exports.updatePlace = async (req, res) => {
   try {
     const userData = userFromToken(req);
     const userId = userData.id;
-    const infoData = req.body.placeData;
+    const infoData = req.body;
     const place = await Place.findById(infoData.id);
+    console.log(infoData);
     if (userId === place['owner'].toString()) {
       place.set({
         title: infoData.title,
         address: infoData.address,
         photos: infoData.addedPhotos,
-        description: infoData.desc,
+        description: infoData.description,
         perks: infoData.perks,
         extraInfo: infoData.extraInfo,
         checkIn: infoData.checkIn,
@@ -93,20 +98,30 @@ exports.updatePlace = async (req, res) => {
 };
 
 exports.singlePlace = async (req, res) => {
+  console.log("Hii");
   try {
     const { id } = req.params;
+    console.log(req.params);
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({
+        message: 'Place not found',
+      });
+    }
     const place = await Place.findById(id);
+    
     if (!place) {
       return res.status(400).json({
         message: 'Place not found',
       });
     }
+
     res.status(200).json({
       place,
     });
+
   } catch (err) {
     res.status(500).json({
-      message: 'Internal server error',
+      message: err,
     });
   }
 };
