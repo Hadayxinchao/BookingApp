@@ -1,4 +1,4 @@
-const { connect, set } = require('mongoose');
+import { connect, set } from 'mongoose';
 
 const connectWithDB = () => {
   set('strictQuery', false);
@@ -15,4 +15,4 @@ const connectWithDB = () => {
     });
 };
 
-module.exports = connectWithDB;
+export default connectWithDB;
