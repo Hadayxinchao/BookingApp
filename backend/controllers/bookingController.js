@@ -84,7 +84,6 @@ exports.createReview = async (req, res) => {
   try {
     const userData = userFromToken(req);
     const bookingId = req.body.bookingId;
-
     // Check if the booking exists and retrieve the check-out date
     const booking = await Booking.findById(bookingId);
     if (!booking) {
@@ -106,7 +105,7 @@ exports.createReview = async (req, res) => {
       return res
         .status(400)
         .json({ success: false, error: 'Cannot review before check-out' });
-    }
+    }*/
 
     // Check if a review for this booking ID already exists
     const existingReview = await Review.findOne({ booking: bookingId });
@@ -115,7 +114,7 @@ exports.createReview = async (req, res) => {
         success: false,
         error: 'You have already reviewed this booking',
       });
-    } */
+    } 
     const reviewData = {
       user: userData.id,
       place: req.body.placeId,
@@ -123,8 +122,24 @@ exports.createReview = async (req, res) => {
       rating: req.body.rating,
       review: req.body.review,
     };
+
+    console.log(reviewData);
+
     const newReview = await Review.create(reviewData);
+    
     res.status(201).json({ success: true, review: newReview });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+};
+
+exports.getPlaceReviews = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const reviews = await Review.find({ place: id }).populate('user', 'name');
+
+    res.json({ success: true, reviews });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
   }

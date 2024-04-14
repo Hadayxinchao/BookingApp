@@ -14,7 +14,7 @@ export default function Header() {
     setPopup(!popup);
   };
   return (
-    <header className="flex bg-white justify-between fixed w-full py-5 px-10 border-b border-b-gray-300 mb-8 z-10">
+    <header className="flex bg-white justify-between fixed w-full py-5 px-10 border-b border-b-gray-300 mb-8 z-40">
       <Link to={"/"} className="flex items-center gap-1">
         <img src="/airbnb.png" alt="logo" className="w-10 h-10" />
       </Link>
