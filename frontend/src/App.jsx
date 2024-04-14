@@ -5,7 +5,7 @@ import RegisterPage from "./pages/RegisterPage";
 import Index from "./components/Index";
 import ProfilePage from "./pages/ProfilePage";
 import PlacesPage from "./pages/PlacesPage";
-import Place from "./components/Place";
+import PlacePage from "./pages/PlacePage";
 import PlacesFormPage from "./pages/PlacesFormPage";
 import BookingsPage from "./pages/BookingsPage";
 import BookingPage from "./pages/BookingPage";
@@ -33,7 +33,7 @@ function App() {
           <Route path="/account/places/:id" element={<PlacesFormPage />} />
           <Route path="/account/bookings" element={<BookingsPage />} />
           <Route path="/account/bookings/:id" element={<BookingPage />} />
-          <Route path="/place/:id" element={<Place />} />
+          <Route path="/place/:id" element={<PlacePage />} />
         </Route>
       </Routes>
     </UserProvider>
