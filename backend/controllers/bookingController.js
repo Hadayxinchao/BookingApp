@@ -122,11 +122,7 @@ exports.createReview = async (req, res) => {
       rating: req.body.rating,
       review: req.body.review,
     };
-
-    console.log(reviewData);
-
     const newReview = await Review.create(reviewData);
-    
     res.status(201).json({ success: true, review: newReview });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });

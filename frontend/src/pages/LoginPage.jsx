@@ -11,10 +11,10 @@ export default function LoginPage() {
   const [password, setPassword] = useState('');
   const {setUser, user} = useContext(UserContext);
 
-  // if(user) {
-  //   toast.warning('You are already logged in');
-  //   navigate('/');
-  // }
+  if(user) {
+    toast.warning('You are already logged in');
+    navigate('/');
+  }
   
   async function handleLoginSubmit(ev) {
     ev.preventDefault();
