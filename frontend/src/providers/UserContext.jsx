@@ -30,6 +30,8 @@ export function UserProvider({children}) {
             };
           });
       }
+    } else {
+      setReady(true);
     }
   }, [user]);
 

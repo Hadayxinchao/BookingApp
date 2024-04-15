@@ -111,8 +111,6 @@ const ProfilePage = () => {
     setShowForm(!showForm);
   };
 
-  console.log(user);
-
   return (
     <div className="mt-16">
       <motion.div
