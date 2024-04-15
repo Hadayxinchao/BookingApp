@@ -84,8 +84,10 @@ exports.createReview = async (req, res) => {
   try {
     const userData = userFromToken(req);
     const bookingId = req.body.bookingId;
+
     // Check if the booking exists and retrieve the check-out date
     const booking = await Booking.findById(bookingId);
+
     if (!booking) {
       return res
         .status(404)
@@ -122,11 +124,7 @@ exports.createReview = async (req, res) => {
       rating: req.body.rating,
       review: req.body.review,
     };
-
-    console.log(reviewData);
-
     const newReview = await Review.create(reviewData);
-    
     res.status(201).json({ success: true, review: newReview });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
