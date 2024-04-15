@@ -2,6 +2,7 @@ const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 const userFromToken = require('../utils/userFromToken');
 const jwt = require('jsonwebtoken');
+const cloudinary = require('cloudinary').v2;
 
 exports.register = async (req, res) => {
   try {
@@ -109,9 +110,9 @@ exports.profile = async (req, res) => {
   try {
     const userData = userFromToken(req);
     if (userData) {
-      const { name, email, description, profilePicture, role, _id } =
+      const { name, email, telephone , address, profilePicture, role, _id } =
         await User.findById(userData.id);
-      res.status(200).json({ name, email, description, profilePicture, role, _id });
+      res.status(200).json({ name, email, telephone, address , profilePicture, role, _id });
     } else {
       res.status(200).json(null);
     }
@@ -125,15 +126,16 @@ exports.profile = async (req, res) => {
 
 exports.updateProfile = async (req, res) => {
   try {
-    const { description, name } = req.body;
+    const { name, telephone, address } = req.body;
     const userId = userFromToken(req).id;
 
+    console.log(userId);
     const updatedUser = await User.findByIdAndUpdate(
       userId,
-      { description, name },
+      { name, telephone, address },
       { new: true }
     );
-
+    
     if (!updatedUser) {
       return res.status(404).json({
         message: 'User not found',
@@ -161,11 +163,11 @@ exports.uploadByLink = async (req, res) => {
     });
     res.json(result.secure_url);
   } catch (error) {
-    console.log(error);
     res.status(500).json({
       message: 'Internal server error',
     });
   }
+
 };
 
 // upload images from local device
@@ -183,7 +185,6 @@ exports.uploadFromLocal = async (req, res) => {
 
     res.status(200).json(imageArray);
   } catch (error) {
-    console.log('Error: ', error);
     res.status(500).json({
       error,
       message: 'Internal server error',
@@ -216,7 +217,6 @@ exports.profilePicture = async (req, res) => {
       // Respond with the profile picture URL
       res.status(200).json({ url: result.secure_url });
     } catch (error) {
-      console.log('Error: ', error);
       res.status(500).json({
         error,
         message: 'Internal server error',

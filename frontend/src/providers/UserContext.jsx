@@ -1,7 +1,7 @@
 import {createContext, useEffect, useState} from "react";
 import axios from "axios";
 import {data} from "autoprefixer";
-import { getItemFromLocalStorage } from '../utils';
+import { getItemFromLocalStorage, removeItemFromLocalStorage } from '../utils';
 
 export const UserContext = createContext({});
 
@@ -20,8 +20,16 @@ export function UserProvider({children}) {
             },
           })
           .then(({ data }) => {
+            console.log(data);
             setUser(data);
             setReady(true);
+          })
+          .catch((error) => {
+            if(error.response.data.error.name === "TokenExpiredError") {
+              removeItemFromLocalStorage('token');
+            } else {
+              console.log(error);
+            };
           });
       }
     }
