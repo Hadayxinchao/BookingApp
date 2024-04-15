@@ -1,12 +1,18 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap');
 
 html,
 body,
 #root,
-.app {
+.app,
+.content {
   height: 100%;
   width: 100%;
-  font-family: "Inter", sans-serif;
+  font-family: 'Source Sans 3', sans-serif;
+}
+
+.app {
+  display: flex;
+  position: relative;
 }
 
 ::-webkit-scrollbar {
@@ -15,15 +21,16 @@ body,
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: #7a7f9d;
+  background: #e0e0e0;
 }
 
-/* Handle */
+/* Hanlle */
 ::-webkit-scrollbar-thumb {
-  background: #21295c;
-}
+  background-color: #888;
+  border-radius: 10px;
+} 
 
-/* Handle on Hover */
-::-webkit-scrollbar-track:hover {
-  background: #21295c;
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
 }

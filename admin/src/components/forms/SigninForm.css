@@ -1,4 +1,4 @@
-* {
+/* * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -11,6 +11,7 @@ body {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
+  background: url('../assets/background.jpg') no-repeat center center/cover;
   background-size: cover;
   background-position: center;
 }
@@ -112,4 +113,4 @@ body {
 
 .register-link p a::hover {
   text-decoration: underline;
-}
+} */
