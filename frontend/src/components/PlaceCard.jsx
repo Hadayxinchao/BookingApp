@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-
 import { useNavigate } from 'react-router-dom';
 import  PlaceImg from './PlaceImg.jsx';
 import { getItemFromLocalStorage } from '../utils/index.js';
+import {toast} from 'react-toastify';
 
 const PlaceCard = ({ place }) => {
   const [deleted, setDeleted] = useState(false); // Declare state variable and function
@@ -15,8 +15,10 @@ const PlaceCard = ({ place }) => {
           Authorization: `Bearer ${getItemFromLocalStorage('token')}`,
         },
       });
-      setDeleted(true); // Update state after succesful deletion
+      setDeleted(true);
+      toast.success('Place deleted successfully');
     } catch (err) {
+      toast.error('Failed to delete place');
       console.error(err);
     }
   };
@@ -28,7 +30,7 @@ const PlaceCard = ({ place }) => {
       event.preventDefault();
     } catch (err) {
       console.error(err);
-      alert('Failed to delete place'); // Display an error message to the user
+      alert('Failed to delete place');
     }
   };
 
@@ -37,7 +39,6 @@ const PlaceCard = ({ place }) => {
   };
 
   if (!place || deleted) {
-    // Check if place is deleted before rendering
     return null;
   }
 

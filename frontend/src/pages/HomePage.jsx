@@ -1,15 +1,29 @@
 import {useEffect, useState} from "react";
 import axios from "axios";
 import {Link} from "react-router-dom";
-import Image from "./Image";
-export default function Index() {
+import Image from "../components/Image";
+import Spinner from "../components/Spinner";
+import {toast} from "react-toastify";
+
+export default function HomePage() {
   const [places,setPlaces] = useState([]);
-  
+  const [loading,setLoading] = useState(true);
+
   useEffect(() => {
-    axios.get('/places').then(response => {
+    axios.get('/places')
+    .then(response => {
       setPlaces(response.data.places);
-    });
+      setLoading(false);
+    })
+    .catch(err => {
+      toast.error('Failed to fetch places');
+      setLoading(false);
+    })
   }, []);
+
+  if(loading) {
+    return <Spinner />;
+  }
 
   return (
     <div className="mt-20 grid gap-x-6 gap-y-8 grid-cols-2 md:grid-cols-3 lg:grid-cols-3">

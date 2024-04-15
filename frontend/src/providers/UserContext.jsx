@@ -1,6 +1,5 @@
 import {createContext, useEffect, useState} from "react";
 import axios from "axios";
-import {data} from "autoprefixer";
 import { getItemFromLocalStorage, removeItemFromLocalStorage } from '../utils';
 
 export const UserContext = createContext({});
@@ -20,7 +19,6 @@ export function UserProvider({children}) {
             },
           })
           .then(({ data }) => {
-            console.log(data);
             setUser(data);
             setReady(true);
           })

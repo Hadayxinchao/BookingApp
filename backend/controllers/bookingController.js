@@ -84,10 +84,8 @@ exports.createReview = async (req, res) => {
   try {
     const userData = userFromToken(req);
     const bookingId = req.body.bookingId;
-
     // Check if the booking exists and retrieve the check-out date
     const booking = await Booking.findById(bookingId);
-
     if (!booking) {
       return res
         .status(404)
