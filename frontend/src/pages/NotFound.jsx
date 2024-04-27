@@ -1,16 +1,16 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { containerVariants } from '../../components/Constant/Constants.jsx';
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
+import { containerVariants } from "../components/Constants.jsx";
 
 function NotFound() {
   const navigate = useNavigate();
   const handleClick = () => {
-    navigate('/');
+    navigate("/");
   };
   return (
     <motion.div variants={containerVariants} initial="hidden" animate="visible">
-      <section className="flex justify-center items-center pt-12 px-20 gap-30">
+      <section className="flex justify-center items-center pt-12 px-20 gap-30 mt-14">
         <div className="w-full">
           <p className="font-semibold text-4xl">
             We can’t seem to find the page you’re looking for

@@ -23,12 +23,14 @@ const PhotosUploader = ({ addedPhotos, setAddedPhotos }) => {
 
   const uploadPhoto = async (e) => {
     const files = e.target.files;
+
     const data = new FormData(); 
     for (let i = 0; i < files.length; i++) {
       data.append('photos', files[i]);
     }
+
     const { data: filenames } = await axios.post('/user/upload', data, {
-      headers: { 'Content-Type': 'multipart/form-data' },
+      headers: { 'Content-Type': 'multipart/form-data'},
     });
     setAddedPhotos((prev) => {
       return [...prev, ...filenames];
