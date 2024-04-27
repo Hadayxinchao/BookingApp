@@ -5,7 +5,29 @@ const Review = require('../models/Review');
 exports.createBookings = async (req, res) => {
   try {
     const userData = userFromToken(req);
+
+    if (!userData) { 
+      return res.status(401).json({ message: 'Please login first' });
+    }
+
     const infoData = req.body;
+
+    const existingBooking = await Booking.findOne({
+    place: infoData.place,
+     $or: [
+        { checkIn: { $gte: infoData.checkIn, $lt: infoData.checkOut } },
+        { checkOut: { $gt: infoData.checkIn, $lte: infoData.checkOut } },
+        { $and: [
+          { checkIn: { $lt: infoData.checkIn } },
+          { checkOut: { $gt: infoData.checkOut } }
+        ] }
+    ],
+  });
+
+    if (existingBooking) {
+      return res.status(400).json({ message: 'Cannot create overlapping bookings' });
+    }
+    
     const booking = await Booking.create({
       user: userData.id,
       place: infoData.place,
@@ -20,6 +42,7 @@ exports.createBookings = async (req, res) => {
     res.status(200).json({
       booking,
     });
+
   } catch (err) {
     res.status(500).json({
       message: 'Internal server error',

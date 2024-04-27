@@ -18,10 +18,12 @@ export default function BookingWidget({place}) {
   useEffect(() => {
     if (user) {
       setName(user.name);
+      setPhone(user.telephone)
     }
   }, [user]);
 
   let numberOfNights = 0;
+
   if (checkIn && checkOut) {
     numberOfNights = differenceInCalendarDays(new Date(checkOut), new Date(checkIn));
   }
@@ -41,6 +43,7 @@ export default function BookingWidget({place}) {
           Authorization: `Bearer ${token}`,
         },
       });
+      toast.success('Booking successful');
       const bookingId = response.data.booking._id;
       setRedirect(`/account/bookings/${bookingId}`);
     } catch (error) {
