@@ -6,35 +6,58 @@ import {
   Favorite,
   FavoriteBorder,
 } from '@mui/icons-material';
+import {toast} from 'react-toastify';
+import Spinner from "../components/Spinner";
 
 const PhotosUploader = ({ addedPhotos, setAddedPhotos }) => {
   const [photoLink, setphotoLink] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const addPhotoByLink = async (e) => {
     e.preventDefault();
-    const { data: filename } = await axios.post('/user/upload-by-link', {
-      link: photoLink,
-    });
-    setAddedPhotos((prev) => {
-      return [...prev, filename];
-    });
-    setphotoLink('');
+    setLoading(true);
+    try {
+      const { data: filename } = await axios.post('/upload-by-link', {
+        link: photoLink,
+      });
+      setAddedPhotos((prev) => {
+        return [...prev, filename];
+      });
+      setphotoLink('');
+      setLoading(false);
+    } catch (error) {
+      toast.error(error.response.data.message);
+      setLoading(false);
+    }
   };
 
+  if(loading) {
+    return <Spinner />;
+  }
+
   const uploadPhoto = async (e) => {
-    const files = e.target.files;
+    console.log("Upload Photo");
+    setLoading(true);
+    try {
+      const files = e.target.files;
 
-    const data = new FormData(); 
-    for (let i = 0; i < files.length; i++) {
-      data.append('photos', files[i]);
+      const data = new FormData(); 
+      for (let i = 0; i < files.length; i++) {
+        data.append('photos', files[i]);
+      }
+
+      const { data: filenames } = await axios.post('/upload', data, {
+        headers: { 'Content-Type': 'multipart/form-data'},
+      });
+      
+      setAddedPhotos((prev) => {
+        return [...prev, ...filenames];
+      });
+      setLoading(false);
+    } catch (error) {
+      toast.error(error.response.data.message);
+      setLoading(false);
     }
-
-    const { data: filenames } = await axios.post('/user/upload', data, {
-      headers: { 'Content-Type': 'multipart/form-data'},
-    });
-    setAddedPhotos((prev) => {
-      return [...prev, ...filenames];
-    });
   };
 
   const removePhoto = (filename) => {
