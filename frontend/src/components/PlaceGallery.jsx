@@ -20,7 +20,7 @@ export default function PlaceGallery({place}) {
           </div>
           {place?.photos?.length > 0 && place.photos.map(photo => (
             <div>
-              <Image src={photo} alt=""/>
+              <Image src={photo} alt="" className='w-full	'/>
             </div>
           ))}
         </div>
@@ -29,7 +29,7 @@ export default function PlaceGallery({place}) {
   }
 
   return (
-    <div className="relative">
+    <div className="relative px-20">
       <div className="grid gap-2 grid-cols-[2fr_1fr] rounded-3xl overflow-hidden">
         <div>
           {place.photos?.[0] && (
