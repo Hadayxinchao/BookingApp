@@ -12,7 +12,7 @@ export const PlaceProvider = ({ children }) => {
     setPlaces(data.places);
     setLoading(false);
   };
-
+    
   useEffect(() => {
     getPlaces().then(() => {});
   }, []);

@@ -1,25 +1,10 @@
-import {useEffect, useState} from "react";
-import axios from "axios";
+import {useContext} from "react";
 import {Link} from "react-router-dom";
 import Image from "../components/Image";
 import Spinner from "../components/Spinner";
-import {toast} from "react-toastify";
-
+import { PlaceContext } from "../providers/PlaceContext";
 export default function HomePage() {
-  const [places,setPlaces] = useState([]);
-  const [loading,setLoading] = useState(true);
-
-  useEffect(() => {
-    axios.get('/places')
-    .then(response => {
-      setPlaces(response.data.places);
-      setLoading(false);
-    })
-    .catch(err => {
-      toast.error('Failed to fetch places');
-      setLoading(false);
-    })
-  }, []);
+  const { places, loading } = useContext(PlaceContext);
 
   if(loading) {
     return <Spinner />;
@@ -27,7 +12,7 @@ export default function HomePage() {
 
   return (
     <div className="mt-20 grid gap-x-6 gap-y-8 grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
-      {places.length > 0 && places.map(place => (
+      {places?.length > 0 && places.map(place => (
         <Link to={'/place/'+place._id} key={place._id}>
           <div className="bg-gray-500 mb-2 rounded-2xl flex">
             {place.photos?.[0] && (

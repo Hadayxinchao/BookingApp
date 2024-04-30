@@ -38,6 +38,7 @@ const SearchBar = () => {
   }
 
   const handleSearch = async (e) => {
+    console.log("Handle Search");
     setLoading(true);
     const searching = () => {
       if (e.target.value === undefined || e.target.value === '') {

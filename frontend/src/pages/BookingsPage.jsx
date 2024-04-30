@@ -1,35 +1,35 @@
-import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import Spinner from '../components/Spinner.jsx';
-import AccountNav from '../components/AccountNav.jsx';
-import BookingDates from '../components/BookingDates.jsx';
-import PlaceImg from '../components/PlaceImg.jsx';
-import axios from 'axios';
-import PaymentIcon from '@mui/icons-material/Payment';
-import { getItemFromLocalStorage } from '../utils/index.js';
-import { toast } from 'react-toastify';
-import { motion } from 'framer-motion';
-import { containerVariants } from '../components/Constants.jsx';
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import Spinner from "../components/Spinner.jsx";
+import AccountNav from "../components/AccountNav.jsx";
+import BookingDates from "../components/BookingDates.jsx";
+import PlaceImg from "../components/PlaceImg.jsx";
+import axios from "axios";
+import PaymentIcon from "@mui/icons-material/Payment";
+import { getItemFromLocalStorage } from "../utils/index.js";
+import { toast } from "react-toastify";
+import { motion } from "framer-motion";
+import { containerVariants } from "../components/Constants.jsx";
 
 const BookedPlacesPage = () => {
   const navigate = useNavigate();
-  const token = getItemFromLocalStorage('token');
+  const token = getItemFromLocalStorage("token");
   const handleStartPlanning = () => {
-    navigate('/');
+    navigate("/");
   };
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     const getBookings = async () => {
       try {
-        const { data } = await axios.get('/booking', {
+        const { data } = await axios.get("/booking", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
         setBookings(data);
       } catch (error) {
-        toast.error('Failed to fetch bookings');
+        toast.error("Failed to fetch bookings");
       } finally {
         setLoading(false);
       }
@@ -48,7 +48,7 @@ const BookedPlacesPage = () => {
       initial="hidden"
       animate="visible"
       exit="exit"
-      className='mt-14'
+      className="mt-14"
     >
       <AccountNav />
       <div>
@@ -83,6 +83,27 @@ const BookedPlacesPage = () => {
                             Total price: ${booking.price}
                           </span>
                         </div>
+
+                        {booking?.status === "cancelled" && (
+                          <div className="bg-red-500 text-white font-bold py-2 px-4 rounded w-40 text-center mt-2">
+                            Cancelled
+                          </div>
+                        )}
+                        {booking?.status === "pending" && (
+                          <div className="bg-yellow-500 text-white font-bold py-2 px-4 rounded w-40 text-center mt-2">
+                            Pending
+                          </div>
+                        )}
+                        {booking?.status === "approved" && (
+                          <div className="bg-green-500 text-white font-bold py-2 px-4 rounded w-40 text-center mt-2">
+                            Approved
+                          </div>
+                        )}
+                        {booking?.status === "done" && (
+                          <div className="bg-green-500 text-white font-bold py-2 px-4 rounded w-40 text-center mt-2">
+                            Done
+                          </div>
+                        )}
                       </div>
                     </div>
                   </div>

@@ -36,7 +36,6 @@ router.post('/upload-by-link', async (req, res) => {
     }
   });
   
-  // upload images from local device
   router.post('/upload', upload.array('photos', 100), async (req, res) => {
     try {
       let imageArray = [];
