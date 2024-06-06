@@ -1,6 +1,7 @@
 const Booking = require('../models/Booking');
 const userFromToken = require('../utils/userFromToken');
 const Review = require('../models/Review');
+const Place = require('../models/Place');
 
 exports.createBookings = async (req, res) => {
   try {
@@ -69,39 +70,39 @@ exports.getBookings = async (req, res) => {
   }
 };
 
-exports.deleteBooking = async (req, res) => {
-  try {
-    const userData = userFromToken(req);
-    if (!userData) {
-      return res
-        .status(401)
-        .json({ error: 'You are not authorized to access this page!' });
-    }
+// exports.deleteBooking = async (req, res) => {
+//   try {
+//     const userData = userFromToken(req);
+//     if (!userData) {
+//       return res
+//         .status(401)
+//         .json({ error: 'You are not authorized to access this page!' });
+//     }
 
-    const booking = await Booking.findById(req.params.id);
-    if (!booking) {
-      return res.status(404).json({
-        message: 'Booking not found',
-      });
-    }
+//     const booking = await Booking.findById(req.params.id);
+//     if (!booking) {
+//       return res.status(404).json({
+//         message: 'Booking not found',
+//       });
+//     }
 
-    if (booking['user'].toString() !== userData.id) {
-      return res.status(401).json({
-        message: 'You are not authorized to delete this booking',
-      });
-    }
+//     if (booking['user'].toString() !== userData.id) {
+//       return res.status(401).json({
+//         message: 'You are not authorized to delete this booking',
+//       });
+//     }
 
-    await booking.remove();
-    res.status(200).json({
-      message: 'Booking deleted successfully',
-    });
-  } catch (err) {
-    res.status(500).json({
-      message: 'Internal server error',
-      error: err,
-    });
-  }
-};
+//     await booking.remove();
+//     res.status(200).json({
+//       message: 'Booking deleted successfully',
+//     });
+//   } catch (err) {
+//     res.status(500).json({
+//       message: 'Internal server error',
+//       error: err,
+//     });
+//   }
+// };
 
 exports.createReview = async (req, res) => {
   try {
@@ -163,3 +164,61 @@ exports.getPlaceReviews = async (req, res) => {
     res.status(500).json({ success: false, error: error.message });
   }
 };
+
+exports.deleteBooking = async (req, res) => {
+  try {
+    const booking = await Booking.findById(req.params.id);
+    if (!booking) {
+      return res.status(404).json({ message: 'Booking not found' });
+    }
+
+    booking.status = 'cancelled';
+
+    booking.save();
+
+    res.status(200).json({ message: 'Booking deleted successfully' });
+  } catch (err) {
+    res.status(500).json({
+      message: 'Internal server error',
+      error: err,
+    });
+  }
+}
+
+exports.getMyBookings = async (req, res) => {
+  try {
+    const userData = userFromToken(req);
+    
+    const place = await Place.find({ owner : userData.id });
+
+    const bookings = await Booking.find({ place: { $in: place.map(p => p._id) } }).populate('place');
+
+    res.status(200).json(bookings);
+  } catch (err) {
+    res.status(500).json({
+      message: 'Internal server error',
+      error: err,
+    }); 
+  }
+}
+
+exports.changeBookingStatus = async (req, res) => { 
+  try {
+    const booking = await Booking.findById(req.params.id);
+
+    if (!booking) {
+      return res.status(404).json({ message: 'Booking not found' });
+    }
+
+    booking.status = req.body.status;
+
+    booking.save();
+
+    res.status(200).json({ message: 'Booking status updated successfully' });
+  } catch (err) {
+    res.status(500).json({
+      message: 'Internal server error',
+      error: err,
+    }); 
+  }
+}

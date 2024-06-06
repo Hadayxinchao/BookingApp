@@ -129,7 +129,7 @@ export default function PlacesForm() {
           placeholder="address"
         />
         {preInput("Photos", "more = better")}
-        <PhotosUploader addedPhotos={addedPhotos} onChange={setAddedPhotos} />
+        <PhotosUploader addedPhotos={addedPhotos} setAddedPhotos={setAddedPhotos} />
         {preInput("Description", "description of the place")}
         <textarea
           value={description}

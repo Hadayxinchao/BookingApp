@@ -3,7 +3,6 @@ const bcrypt = require('bcryptjs');
 const userFromToken = require('../utils/userFromToken');
 const jwt = require('jsonwebtoken');
 const cloudinary = require('cloudinary').v2;
-
 exports.register = async (req, res) => {
   try {
     const { name, email, password, role } = req.body;
@@ -150,44 +149,6 @@ exports.updateProfile = async (req, res) => {
     res.status(500).json({
       message: 'Internal server error',
       error: err,
-    });
-  }
-};
-
-// upload photo using image url
-exports.uploadByLink = async (req, res) => {
-  try {
-    const { link } = req.body;
-    let result = await cloudinary.uploader.upload(link, {
-      folder: 'Airbnb/Places',
-    });
-    res.json(result.secure_url);
-  } catch (error) {
-    res.status(500).json({
-      message: 'Internal server error',
-    });
-  }
-
-};
-
-// upload images from local device
-exports.uploadFromLocal = async (req, res) => {
-  try {
-    let imageArray = [];
-
-    for (let index = 0; index < req.files.length; index++) {
-      let { path } = req.files[index];
-      let result = await cloudinary.uploader.upload(path, {
-        folder: 'Airbnb/Places',
-      });
-      imageArray.push(result.secure_url);
-    }
-
-    res.status(200).json(imageArray);
-  } catch (error) {
-    res.status(500).json({
-      error,
-      message: 'Internal server error',
     });
   }
 };
