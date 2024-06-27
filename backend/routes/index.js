@@ -12,7 +12,7 @@ router.use('/user', require('./user'));
 router.use('/admin', require('./admin'));
 router.use('/places', require('./place'));
 router.use('/booking', require('./booking'));
-
+router.use('/payment', require('./payment'));
 router.post('/upload-by-link', async (req, res) => {
     try {
       const { link } = req.body;

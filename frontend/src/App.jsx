@@ -11,6 +11,8 @@ import BookingsPage from "./pages/BookingsPage";
 import BookingPage from "./pages/BookingPage";
 import Layout from "./components/Layout";
 import NotFound from "./pages/NotFound";
+import PaymentCancel from "./pages/PaymentCancel";
+import PaymentSuccessful from "./pages/PaymentSuccessful";
 import axios from "axios";
 import { UserProvider } from "./providers/UserContext";
 import { PlaceProvider } from "./providers/PlaceContext";
@@ -39,6 +41,8 @@ function App() {
               <Route path="/account/bookings/:id" element={<BookingPage />} />
               <Route path="/place/:id" element={<PlacePage />} />
               <Route path="*" element={<NotFound />} />
+              <Route path="/payment-cancel" element={<PaymentCancel />} />
+              <Route path="/payment-successful" element={<PaymentSuccessful />} />
             </Route>
           </Routes>
         </UserProvider>

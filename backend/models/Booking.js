@@ -37,7 +37,7 @@ const bookingSchema = new mongoose.Schema({
   },
   status: {
     type: String, 
-    enum: ['pending', 'approved', 'cancelled', 'done'],
+    enum: ['pending', 'payed', 'approved', 'cancelled', 'done'],
     default: 'pending',
   }
 });
