@@ -21,7 +21,6 @@ function PaymentSuccessful() {
   };
 
   useEffect(() => {
-    if (!canSendMail) {
       const getBookings = async () => {
         try {
           const { data } = await axios.get('/booking', {
@@ -29,69 +28,20 @@ function PaymentSuccessful() {
               Authorization: `Bearer ${token}`,
             },
           });
-
           setBookings(data);
-          
-
-
-          await axios
-          .post(`/booking/change/${bookings[bookings.length - 1]._id}`, { status: "payed" })
-          .catch((error) => {
-            toast.error("Something went wrong");
-            console.error(error);
-          });
-
-
-
-
-
-
-
-
-
-
-
-        } catch (error) {
-          toast.error('Failed to fetch bookings');
+          if(bookings && bookings.length > 0) {
+            await axios.post(`/booking/change/${bookings[bookings.length - 1]._id}`, { status: "Paid" })
+            .catch((error) => {
+              toast.error("Something went wrong");
+              console.error(error);
+            });
+          }
+          } catch (error) {
+          console.log('Failed to fetch bookings');
         }
       };
-
-      getBookings().then(() => {
-        setCanSendMail(true);
-      });
-    } else {
-      if (bookings.length > 0 && !mailSent) {
-        setMailSent(true);
-        const sendEmail = () => {
-          emailjs
-            .send(
-              'service_2f72jif',
-              'template_ygd8z4b',
-              {
-                to_name: bookings[0].name,
-                to_email: bookings[0].user.email,
-                place: bookings[bookings.length - 1].place.title,
-                price: bookings[bookings.length - 1].price,
-                booking_id: bookings[bookings.length - 1]._id,
-                total_nights: differenceInCalendarDays(
-                  new Date(bookings[bookings.length - 1].checkOut),
-                  new Date(bookings[bookings.length - 1].checkIn)
-                ),
-                address: bookings[bookings.length - 1].place.address,
-              },
-              'A1Me166m6TwcmksZP'
-            )
-            .then((response) => {
-              console.log('SUCCESS!', response.status, response.text);
-            })
-            .catch((error) => {
-              console.error('FAILED...', error);
-            });
-        };
-        sendEmail();
-      }
-    }
-  }, [bookings, canSendMail, mailSent, token]);
+      getBookings();
+  }, [bookings, token]);
 
   return (
     <>
